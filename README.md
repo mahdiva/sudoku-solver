@@ -1,5 +1,5 @@
 # **Sudoku Solver**
-A Sudoku solver written in Java	A Sudoku Solver written in Java using Linked Grids, which is able to solve Sudoku puzzles at any difficulty level. This program uses an elimination and recursive guessing algorithm to solve a given Sudoku board.
+A Sudoku Solver written in Java using Linked Grids, which is able to solve Sudoku puzzles at any difficulty level. This program uses an elimination and recursive guessing algorithm to solve a given Sudoku board.
  ## **Installation**
 To initialize a 9x9 Sudoku board:  
 `Board puzzle = new Board(9);`  
