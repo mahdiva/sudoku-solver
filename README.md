@@ -18,5 +18,6 @@ To attempt to solve a Board object use:
 To display a solved board in the console use the following:  
 `puzzle.printBoard();`  
   
+    
 ## **License**
- This project is licensed under the MIT License - see the [LICENSE.md](https://raw.githubusercontent.com/MahdiVarposhti/sudoku-solver/master/LICENSE) file for details
+ This project is licensed under the MIT License - see the [LICENSE](https://raw.githubusercontent.com/MahdiVarposhti/sudoku-solver/master/LICENSE) file for details.
