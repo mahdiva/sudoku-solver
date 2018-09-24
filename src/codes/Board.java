@@ -1,3 +1,9 @@
+/*
+ * Author: Mahdi Varposhti
+ * Version: 1.0
+ * 
+ */
+
 package codes;
 
 import java.io.File;
@@ -9,12 +15,11 @@ public class Board {
 	private Node root;
 	private int size;
 	
-	public Board(int size) throws IOException {
+	public Board(int boardSize) throws IOException {
 		
-		this.size = size;
-		root = new Node(); // Make the first Node and set it to root
+		this.size = boardSize;
+		root = new Node(); // Create the first Node and set it to root
 		Node rowPointer = root; // This pointer will be used for iteration, start at root
-		
 		
 		for(int y=0; y<size; y++){
 			if(y != 0){
@@ -70,8 +75,7 @@ public class Board {
 			rowCount++;
 		}
 		
-		System.out.println();
-		System.out.println();
+		System.out.println("\n");
 		
 	}
 	
@@ -109,11 +113,9 @@ public class Board {
 			rowCount++;
 		}
 		
-		System.out.println();
-		System.out.println();
+		System.out.println("\n");
 		
 	}
-	
 	
 	// Method for loading the board from a file
 	public void loadFromFile(String filepath) throws IOException {
@@ -155,7 +157,7 @@ public class Board {
 		input.close();
 	}
 	
-	// Iterate through each cell, if a cell has only 1 possibility true, set its value to that
+	// Iterate through each cell, if a cell has only 1 possibility, set its value to that
 	public boolean solveCells(){
 		
 		// To keep track if any cells were solved. Used for knowing when to stop looping this method
@@ -173,13 +175,10 @@ public class Board {
 			rowPointer = rowPointer.getDown();
 		}
 		
-		
-		//System.out.println(solvedAnyCells);
 		return solvedAnyCells;
 	}
 	
-	
-	// Iterate through the board and eliminate every possibility of unsolved cells based on the solved cells
+	// Iterate through the board and eliminate every possibility of unsolved cells based on the adjacent solved cells
 	public void eliminate(){
 		
 		Node rowPointer = root;
@@ -190,7 +189,7 @@ public class Board {
 				
 				int cell = colPointer.getData();
 				
-				// If the cell is already set/solved eliminate all the other cells in it's section
+				// If the cell is already solved eliminate all the other cells in it's section
 				if(cell != 0){
 					
 					// Set all possibilities of that box to false
@@ -198,35 +197,35 @@ public class Board {
 						colPointer.setImpossible(i);
 					}
 					
-					// Eliminate all the cells to the right
+					// Eliminate cells to the right
 					Node cellPointer = colPointer;
 					while(cellPointer != null){
 						cellPointer.setImpossible(cell);
 						cellPointer = cellPointer.getRight();
 					}
 					
-					// Eliminate all the cells to the left
+					// Eliminate cells to the left
 					cellPointer = colPointer;
 					while(cellPointer != null){
 						cellPointer.setImpossible(cell);
 						cellPointer = cellPointer.getLeft();
 					}
 					
-					// Eliminate all the cells upwards
+					// Eliminate cells upwards
 					cellPointer = colPointer;
 					while(cellPointer != null){
 						cellPointer.setImpossible(cell);
 						cellPointer = cellPointer.getUp();
 					}
 					
-					// Eliminate all the cells downwards
+					// Eliminate cells downwards
 					cellPointer = colPointer;
 					while(cellPointer != null){
 						cellPointer.setImpossible(cell);
 						cellPointer = cellPointer.getDown();
 					}
 					
-					// Eliminate all the cells in that box section (with the same boxID)
+					// Eliminate the cells in that box section (with the same boxID)
 					int boxID = colPointer.getBoxID();
 					Node cellRowPointer = root;
 					
@@ -251,7 +250,7 @@ public class Board {
 		
 	}
 	
-	// Check to see if the board is valid; Check if there are any conflicting cells with the same value
+	// Method for checking to see if the board is valid - Check if there are any conflicting cells with the same value
 	public boolean isValid() {
 		
 		Node rowPointer = root;
@@ -331,7 +330,7 @@ public class Board {
 		return true;
 	}
 	
-	// Check if the board is solved by iterating through each cell, if there are any unsolved cells, then the board is not solved
+	// Check if the board is solved by iterating through each cell 
 	public boolean isSolved(){
 		
 		Node rowPointer = root;
@@ -366,7 +365,6 @@ public class Board {
 		
 		return null;
 	}
-	
 	
 	// Recursive method for trying each possibility of each cell
 	public void guess(Node cell){
@@ -412,26 +410,25 @@ public class Board {
 		
 	}
 	
-	// The main method for solving the Sudoku board using the previous utility methods
+	// Main method for solving the Sudoku board using the previous utility methods
 	// Eliminate and Solve the board until no more cells can be eliminated
 	// Start trying each possibility and solve the board by taking guesses
 	
 	public void solveBoard(){
 		
 		eliminate();
-		// Eliminate-Solve each cell until no more cells can be eliminated-solved
+		
+		// Eliminate & Solve each cell until no more cells can be eliminated/solved
 		while(solveCells()){
 			eliminate();
 		}
 		
 		// If no more cells can be eliminated-solved then start guessing
-		
 		// Find first unsolved cell and start guessing from there
 		Node start = getNextUnsolved();
 		
 		guess(start);
 		
 	}
-	
 	
 }
